@@ -1,0 +1,438 @@
+{% extends "base.html" %}
+
+{% block title %}FitBuddy – AI Fitness Plan Generator | Your AI-Powered Fitness Companion{% endblock %}
+
+{% block content %}
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+<section class="hero-section">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="sparkle-icon">✨</span>
+                <span>Next-Gen Gemini AI Fitness Intelligence</span>
+            </div>
+
+            <h1 class="hero-title">
+                Transform Your Body With <br>
+                <span class="text-gradient">AI-Powered Workouts</span>
+            </h1>
+
+            <p class="hero-description">
+                FitBuddy generates scientifically structured <strong>7-day workout plans</strong>, targeted nutrition guidance, and intelligent recovery protocols tailored precisely to your body, goals, and lifestyle.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#generator" class="btn btn-primary btn-lg shadow-glow">
+                    <span>Create My Fitness Plan</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                    </svg>
+                </a>
+                <a href="#how-it-works" class="btn btn-secondary btn-lg">
+                    <span>How It Works</span>
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">7-Day</div>
+                    <div class="stat-label">Tailored Routine</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-num">100%</div>
+                    <div class="stat-label">AI Personalized</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-num">Adaptive</div>
+                    <div class="stat-label">Feedback Engine</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="visual-card-wrapper">
+                <!-- Floating Glass Cards -->
+                <div class="floating-badge badge-top">
+                    <span class="icon">🔥</span>
+                    <div>
+                        <div class="f-title">Target: Muscle Gain & Burn</div>
+                        <div class="f-sub">Optimal Hypertrophy Curve</div>
+                    </div>
+                </div>
+
+                <div class="hero-graphic-card">
+                    <div class="graphic-header">
+                        <div class="status-indicator"></div>
+                        <span>FitBuddy Neural Core v2.5</span>
+                    </div>
+                    <div class="graphic-body">
+                        <div class="workout-preview-box">
+                            <div class="wb-day">DAY 01 • UPPER BODY BLAST</div>
+                            <div class="wb-exercises">
+                                <div class="wb-ex-row">
+                                    <span class="ex-bullet"></span>
+                                    <span class="ex-name">Dumbbell Incline Bench Press</span>
+                                    <span class="ex-metric">4 × 10</span>
+                                </div>
+                                <div class="wb-ex-row">
+                                    <span class="ex-bullet"></span>
+                                    <span class="ex-name">Lat Pulldowns to Chest</span>
+                                    <span class="ex-metric">4 × 12</span>
+                                </div>
+                                <div class="wb-ex-row">
+                                    <span class="ex-bullet"></span>
+                                    <span class="ex-name">Lateral Shoulder Raises</span>
+                                    <span class="ex-metric">3 × 15</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nutrition-preview-pill">
+                            <span class="pill-icon">🥗</span>
+                            <span>Target: 140g Protein • 3L Water • 8h Sleep</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-badge badge-bottom">
+                    <span class="icon">⚡</span>
+                    <div>
+                        <div class="f-title">Adaptive Feedback</div>
+                        <div class="f-sub">1-Click AI Routine Modification</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     HOW IT WORKS SECTION
+========================================================= -->
+<section id="how-it-works" class="section-wrapper">
+    <div class="container">
+        <div class="section-header text-center">
+            <div class="section-badge">Simple 3-Step Process</div>
+            <h2 class="section-title">How FitBuddy <span class="text-gradient">Works</span></h2>
+            <p class="section-subtitle">Effortlessly create and refine your personal fitness blueprint in seconds.</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card glass-card">
+                <div class="step-number">01</div>
+                <div class="step-icon">📝</div>
+                <h3 class="step-title">Enter Profile & Goals</h3>
+                <p class="step-desc">Provide your basic parameters (age, weight, goal, and workout intensity). FitBuddy securely validates your metrics.</p>
+            </div>
+
+            <div class="step-card glass-card active-step">
+                <div class="step-number">02</div>
+                <div class="step-icon">🧠</div>
+                <h3 class="step-title">Gemini AI Synthesis</h3>
+                <p class="step-desc">Google Gemini AI evaluates biomechanics, periodization, and recovery needs to craft a balanced 7-day schedule.</p>
+            </div>
+
+            <div class="step-card glass-card">
+                <div class="step-number">03</div>
+                <div class="step-icon">🔄</div>
+                <h3 class="step-title">Execute & Refine</h3>
+                <p class="step-desc">Download or print your blueprint. Provide feedback (e.g. "Add more cardio") to instantly adapt your AI routine without losing history.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     KEY FEATURES SECTION
+========================================================= -->
+<section id="features" class="section-wrapper bg-subtle">
+    <div class="container">
+        <div class="section-header text-center">
+            <div class="section-badge">Platform Highlights</div>
+            <h2 class="section-title">Engineered for <span class="text-gradient">Real Results</span></h2>
+            <p class="section-subtitle">Everything you need to stay consistent, motivated, and progressive.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">📅</div>
+                <h3 class="f-card-title">Structured 7-Day Plans</h3>
+                <p class="f-card-desc">Every single day contains clear warm-ups, exercises, set/rep ranges, rest timings, and structured cool-downs.</p>
+            </div>
+
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">🍎</div>
+                <h3 class="f-card-title">Targeted Nutrition & Recovery</h3>
+                <p class="f-card-desc">Receive tailored hydration, daily protein targets, meal timing strategies, and sleep hygiene recommendations.</p>
+            </div>
+
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">💬</div>
+                <h3 class="f-card-title">Adaptive Feedback Engine</h3>
+                <p class="f-card-desc">Need home workouts or lower intensity? FitBuddy's AI adapts your routine in real-time while preserving your original plan.</p>
+            </div>
+
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">📊</div>
+                <h3 class="f-card-title">Admin Insights & Analytics</h3>
+                <p class="f-card-desc">Comprehensive admin portal with user metrics, goal distribution analytics, and searchable athlete records.</p>
+            </div>
+
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">🖨️</div>
+                <h3 class="f-card-title">Print & Instant Download</h3>
+                <p class="f-card-desc">Export clean markdown or formatted documents with one click to take your workout to the gym.</p>
+            </div>
+
+            <div class="feature-card glass-card">
+                <div class="f-icon-box">🔒</div>
+                <h3 class="f-card-title">Private & Secure</h3>
+                <p class="f-card-desc">Built with robust backend validation, SQLite persistence, and zero client-side API key exposure.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     GENERATOR FORM SECTION
+========================================================= -->
+<section id="generator" class="section-wrapper generator-section">
+    <div class="container">
+        <div class="form-wrapper glass-card form-glass">
+            <div class="form-header text-center">
+                <div class="generator-badge">⚡ Instant AI Generation</div>
+                <h2 class="form-title">Build Your Personalized <span class="text-gradient">7-Day Plan</span></h2>
+                <p class="form-subtitle">Fill in your fitness parameters below to generate your custom AI workout & recovery routine.</p>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <span class="alert-icon">⚠️</span>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form id="fitnessForm" action="/generate-workout" method="POST" class="fitness-form" novalidate>
+                <div class="form-grid">
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            <span>Full Name</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-input" 
+                                placeholder="e.g. Alex Johnson" 
+                                value="{{ form_data.name if form_data else '' }}"
+                                required 
+                                minlength="2"
+                                maxlength="100"
+                            >
+                        </div>
+                        <span class="field-error" id="nameError"></span>
+                    </div>
+
+                    <!-- User ID Field -->
+                    <div class="form-group">
+                        <label for="user_id" class="form-label">
+                            <span>Unique User ID</span>
+                            <span class="required-star">*</span>
+                            <span class="tooltip-badge" title="Alphanumeric ID used to retrieve your plan">ℹ️</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🆔</span>
+                            <input 
+                                type="text" 
+                                id="user_id" 
+                                name="user_id" 
+                                class="form-input" 
+                                placeholder="e.g. alex_fit24" 
+                                value="{{ form_data.user_id if form_data else '' }}"
+                                required 
+                                minlength="3"
+                                maxlength="50"
+                            >
+                        </div>
+                        <span class="field-error" id="userIdError"></span>
+                    </div>
+
+                    <!-- Age Field -->
+                    <div class="form-group">
+                        <label for="age" class="form-label">
+                            <span>Age (Years)</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🎂</span>
+                            <input 
+                                type="number" 
+                                id="age" 
+                                name="age" 
+                                class="form-input" 
+                                placeholder="e.g. 24" 
+                                min="13" 
+                                max="120"
+                                value="{{ form_data.age if form_data else '' }}"
+                                required
+                            >
+                        </div>
+                        <span class="field-error" id="ageError"></span>
+                    </div>
+
+                    <!-- Weight Field -->
+                    <div class="form-group">
+                        <label for="weight" class="form-label">
+                            <span>Weight (kg)</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">⚖️</span>
+                            <input 
+                                type="number" 
+                                step="0.1" 
+                                id="weight" 
+                                name="weight" 
+                                class="form-input" 
+                                placeholder="e.g. 72.5" 
+                                min="20" 
+                                max="350"
+                                value="{{ form_data.weight if form_data else '' }}"
+                                required
+                            >
+                        </div>
+                        <span class="field-error" id="weightError"></span>
+                    </div>
+
+                    <!-- Fitness Goal Field -->
+                    <div class="form-group">
+                        <label for="goal" class="form-label">
+                            <span>Fitness Goal</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🎯</span>
+                            <select id="goal" name="goal" class="form-select" required>
+                                <option value="" disabled {% if not form_data or not form_data.goal %}selected{% endif %}>Select your primary goal...</option>
+                                {% for g in goals %}
+                                <option value="{{ g }}" {% if form_data and form_data.goal == g %}selected{% endif %}>{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <span class="field-error" id="goalError"></span>
+                    </div>
+
+                    <!-- Workout Intensity Field -->
+                    <div class="form-group">
+                        <label for="intensity" class="form-label">
+                            <span>Workout Intensity</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">⚡</span>
+                            <select id="intensity" name="intensity" class="form-select" required>
+                                <option value="" disabled {% if not form_data or not form_data.intensity %}selected{% endif %}>Select intensity level...</option>
+                                {% for int_opt in intensities %}
+                                <option value="{{ int_opt }}" {% if form_data and form_data.intensity == int_opt %}selected{% endif %}>{{ int_opt }} Intensity</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <span class="field-error" id="intensityError"></span>
+                    </div>
+                </div>
+
+                <div class="form-disclaimer">
+                    <span class="shield-icon">🛡️</span>
+                    <span>All plans include safety checks, dynamic warm-ups, periodized rest days, and nutrition tips.</span>
+                </div>
+
+                <div class="form-actions text-center">
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-xl submit-btn shadow-glow">
+                        <span class="btn-text">Generate My 7-Day Plan</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     ABOUT / ACADEMIC SECTION
+========================================================= -->
+<section id="about" class="section-wrapper">
+    <div class="container">
+        <div class="about-grid glass-card">
+            <div class="about-info">
+                <div class="section-badge">Academic & Technical Architecture</div>
+                <h2 class="about-title">Built with Modern Full-Stack Technologies</h2>
+                <p class="about-desc">
+                    <strong>FitBuddy</strong> was developed as an advanced AI web application integrating FastAPI, SQLite (SQLAlchemy ORM), and Google Gemini AI to deliver personalized physical conditioning and wellness solutions.
+                </p>
+                <div class="tech-stack-pills">
+                    <span class="tech-pill">Python 3.11</span>
+                    <span class="tech-pill">FastAPI</span>
+                    <span class="tech-pill">Google GenAI / Gemini</span>
+                    <span class="tech-pill">SQLAlchemy ORM</span>
+                    <span class="tech-pill">SQLite</span>
+                    <span class="tech-pill">Jinja2</span>
+                    <span class="tech-pill">Vanilla CSS3</span>
+                    <span class="tech-pill">Modern ES6 JS</span>
+                </div>
+            </div>
+
+            <div class="about-card-metrics">
+                <div class="metric-box">
+                    <div class="m-val">100%</div>
+                    <div class="m-lbl">Zero Frontend API Key Exposure</div>
+                </div>
+                <div class="metric-box">
+                    <div class="m-val">&lt; 3s</div>
+                    <div class="m-lbl">AI Generation Latency</div>
+                </div>
+                <div class="metric-box">
+                    <div class="m-val">Dual</div>
+                    <div class="m-lbl">Original & Modified Plan Persistence</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     LOADING OVERLAY (MODAL)
+========================================================= -->
+<div id="loadingOverlay" class="loading-overlay hidden" aria-hidden="true">
+    <div class="loading-card glass-card">
+        <div class="dumbbell-animation">
+            <div class="dumbbell">
+                <div class="plate left"></div>
+                <div class="bar"></div>
+                <div class="plate right"></div>
+            </div>
+            <div class="ai-sparkles">✨</div>
+        </div>
+
+        <h3 class="loading-title">FitBuddy AI is crafting your plan...</h3>
+        <p class="loading-subtitle" id="loadingDynamicText">Analyzing fitness metrics & computing periodized schedule...</p>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+
+        <div class="loading-step-badges">
+            <span class="badge-step active" id="step1Badge">✓ Profile Validated</span>
+            <span class="badge-step" id="step2Badge">Generating 7-Day Plan</span>
+            <span class="badge-step" id="step3Badge">Targeting Nutrition</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

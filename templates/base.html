@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FitBuddy - AI-Powered 7-Day Fitness & Nutrition Plan Generator powered by Google Gemini AI.">
+    <meta name="theme-color" content="#0d1117">
+    <title>{% block title %}FitBuddy – AI Fitness Plan Generator{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Favicon (SVG data URI) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300e676'><path d='M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z'/></svg>">
+</head>
+<body>
+    <!-- Background Ambient Glow Effects -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <!-- Navigation Bar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar container">
+            <a href="/" class="brand-logo">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/>
+                    </svg>
+                </div>
+                <span class="brand-text">Fit<span class="brand-accent">Buddy</span></span>
+                <span class="ai-badge">AI</span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="/#features" class="nav-link">Features</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+                <li><a href="/view-all-users" class="nav-link admin-nav-link"><span class="lock-icon">🔒</span> Admin</a></li>
+                <li><a href="/#generator" class="btn btn-sm btn-primary nav-cta">Generate Plan</a></li>
+            </ul>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-col brand-col">
+                <div class="brand-logo">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/>
+                        </svg>
+                    </div>
+                    <span class="brand-text">Fit<span class="brand-accent">Buddy</span></span>
+                </div>
+                <p class="footer-desc">Your AI-powered fitness companion delivering customized 7-day workout plans, smart nutrition strategies, and adaptive routine feedback powered by Google Gemini AI.</p>
+                <div class="ai-powered-pill">
+                    <span class="pulse-dot"></span> Powered by Google Gemini AI
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#generator">Plan Generator</a></li>
+                    <li><a href="/#how-it-works">How It Works</a></li>
+                    <li><a href="/#features">Key Features</a></li>
+                    <li><a href="/view-all-users">Admin Portal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Fitness Goals</h4>
+                <ul class="footer-links">
+                    <li><a href="/#generator">Weight Loss</a></li>
+                    <li><a href="/#generator">Muscle Hypertrophy</a></li>
+                    <li><a href="/#generator">General Wellness</a></li>
+                    <li><a href="/#generator">Endurance & Stamina</a></li>
+                    <li><a href="/#generator">Flexibility & Mobility</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Developer & Docs</h4>
+                <ul class="footer-links">
+                    <li><a href="/docs" target="_blank">FastAPI Swagger Docs</a></li>
+                    <li><a href="/redoc" target="_blank">ReDoc Documentation</a></li>
+                    <li><a href="/#about">College Project Spec</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom container">
+            <p class="copyright">© 2026 FitBuddy. Built with FastAPI, SQLite, and Google Gemini AI.</p>
+            <p class="disclaimer-note">For academic demonstration and general wellness guidance only.</p>
+        </div>
+    </footer>
+
+    <!-- Global Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Main JavaScript -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

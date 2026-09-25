@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Improve Your Plan – {{ user.name }} | FitBuddy{% endblock %}
+
+{% block content %}
+<div class="feedback-page-wrapper">
+    <div class="container">
+        
+        <div class="feedback-container glass-card form-glass">
+            <div class="feedback-header text-center">
+                <div class="section-badge">⚡ AI Adaptive Refinement</div>
+                <h1 class="feedback-title">Improve Your <span class="text-gradient">AI Plan</span></h1>
+                <p class="feedback-subtitle">Tell FitBuddy AI what you'd like to adjust. We will regenerate your 7-day schedule to fit your lifestyle while preserving your original baseline.</p>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <span class="alert-icon">⚠️</span>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <!-- User Context Summary Card -->
+            <div class="user-context-card">
+                <div class="context-item">
+                    <span class="ctx-label">Athlete:</span>
+                    <span class="ctx-val">{{ user.name }} ({{ user.user_id }})</span>
+                </div>
+                <div class="context-item">
+                    <span class="ctx-label">Current Goal:</span>
+                    <span class="ctx-val highlight-accent">{{ user.goal }}</span>
+                </div>
+                <div class="context-item">
+                    <span class="ctx-label">Current Intensity:</span>
+                    <span class="ctx-val">{{ user.intensity }}</span>
+                </div>
+            </div>
+
+            <!-- Feedback Form -->
+            <form id="feedbackForm" action="/submit-feedback" method="POST" class="feedback-form">
+                <input type="hidden" name="user_id" value="{{ user.user_id }}">
+
+                <!-- Quick Pre-Set Tags -->
+                <div class="quick-tags-section">
+                    <label class="form-label">
+                        <span>Quick Suggestion Tags:</span>
+                        <small>(Click to add directly into your feedback)</small>
+                    </label>
+                    <div class="tags-grid">
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Add more cardio and HIIT finishers')">+ Add More Cardio</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Reduce workout intensity and make sets easier')">+ Reduce Intensity</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('I prefer home workouts with dumbbells only')">+ Home Workouts Only</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Add yoga, mobility, and deep stretching routines')">+ Add Yoga & Mobility</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Include more rest and recovery days')">+ More Rest Days</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Low impact exercises to protect knees and joints')">+ Low Impact (Joint Friendly)</button>
+                        <button type="button" class="quick-tag-btn" onclick="appendFeedbackTag('Add dedicated core and abdominal strengthening')">+ Extra Core & Abs</button>
+                    </div>
+                </div>
+
+                <!-- Main Textarea -->
+                <div class="form-group">
+                    <label for="feedback" class="form-label">
+                        <span>Your Custom Adjustments / Instructions</span>
+                        <span class="required-star">*</span>
+                    </label>
+                    <div class="textarea-wrapper">
+                        <textarea 
+                            id="feedback" 
+                            name="feedback" 
+                            rows="5" 
+                            class="form-textarea" 
+                            placeholder="e.g. I only have 30 minutes a day and prefer bodyweight exercises. Please add more leg volume and include a yoga cooldown..." 
+                            required 
+                            minlength="3" 
+                            maxlength="1000"
+                        >{{ plan_record.feedback if plan_record and plan_record.feedback else '' }}</textarea>
+                    </div>
+                    <div class="textarea-footer">
+                        <span class="field-error" id="feedbackError"></span>
+                        <span class="char-count" id="charCounter">0 / 1000</span>
+                    </div>
+                </div>
+
+                <!-- Info note -->
+                <div class="info-callout">
+                    <span class="info-icon">ℹ️</span>
+                    <span><strong>Note:</strong> Your original plan is permanently saved in the database. FitBuddy AI will create a distinct updated edition reflecting your changes.</span>
+                </div>
+
+                <!-- Form Action Buttons -->
+                <div class="feedback-actions">
+                    <a href="/result/{{ user.user_id }}" class="btn btn-secondary btn-lg">
+                        <span>← Back to Plan</span>
+                    </a>
+                    <button type="submit" id="submitFeedbackBtn" class="btn btn-primary btn-lg shadow-glow">
+                        <span class="btn-text">Update My AI Plan</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- Loading Overlay for Feedback Regeneration -->
+<div id="feedbackLoadingOverlay" class="loading-overlay hidden" aria-hidden="true">
+    <div class="loading-card glass-card">
+        <div class="dumbbell-animation">
+            <div class="dumbbell">
+                <div class="plate left"></div>
+                <div class="bar"></div>
+                <div class="plate right"></div>
+            </div>
+            <div class="ai-sparkles">✨</div>
+        </div>
+
+        <h3 class="loading-title">Refining Your Routine...</h3>
+        <p class="loading-subtitle">FitBuddy AI is adapting your 7-day schedule based on your feedback.</p>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill animated-bar"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

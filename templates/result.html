@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Your 7-Day AI Workout Plan – {{ user.name }} | FitBuddy{% endblock %}
+
+{% block content %}
+<div class="result-page-wrapper">
+    <div class="container">
+        
+        <!-- =========================================================
+             PROFILE HERO SUMMARY
+        ========================================================= -->
+        <div class="result-header-card glass-card">
+            <div class="result-header-content">
+                <div class="user-greeting-wrapper">
+                    <span class="greeting-emoji">👋</span>
+                    <div>
+                        <h1 class="user-greeting">Hi, <span class="text-gradient">{{ user.name }}</span>!</h1>
+                        <p class="plan-subtitle">{{ plan.summary }}</p>
+                    </div>
+                </div>
+
+                <div class="plan-status-tags">
+                    {% if is_updated %}
+                    <span class="badge badge-updated">
+                        <span class="pulse-dot-amber"></span> Updated with Feedback
+                    </span>
+                    {% else %}
+                    <span class="badge badge-original">
+                        <span class="pulse-dot-green"></span> Fresh AI Blueprint
+                    </span>
+                    {% endif %}
+                    <span class="badge badge-date">User ID: <strong>{{ user.user_id }}</strong></span>
+                </div>
+            </div>
+
+            <!-- Profile Summary Metric Cards -->
+            <div class="profile-metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">🎂</div>
+                    <div class="metric-details">
+                        <span class="m-title">Age</span>
+                        <span class="m-value">{{ user.age }} <small>years</small></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">⚖️</div>
+                    <div class="metric-details">
+                        <span class="m-title">Weight</span>
+                        <span class="m-value">{{ user.weight }} <small>kg</small></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-details">
+                        <span class="m-title">Fitness Goal</span>
+                        <span class="m-value highlight-accent">{{ user.goal }}</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-details">
+                        <span class="m-title">Workout Intensity</span>
+                        <span class="m-value">{{ user.intensity }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Toolbar -->
+            <div class="action-toolbar">
+                <button onclick="window.print()" class="btn btn-secondary btn-action" title="Print this workout plan">
+                    <span class="icon">🖨️</span>
+                    <span>Print Plan</span>
+                </button>
+
+                <a href="/api/user/{{ user.user_id }}/download" class="btn btn-secondary btn-action" title="Download text version">
+                    <span class="icon">📥</span>
+                    <span>Download Plan</span>
+                </a>
+
+                <button id="copyPlanBtn" onclick="copyPlanToClipboard()" class="btn btn-secondary btn-action" title="Copy to clipboard">
+                    <span class="icon">📋</span>
+                    <span id="copyBtnText">Copy Plan</span>
+                </button>
+
+                <a href="/feedback/{{ user.user_id }}" class="btn btn-primary btn-action shadow-glow" title="Fine-tune your workout routine">
+                    <span class="icon">💬</span>
+                    <span>Improve / Give Feedback</span>
+                </a>
+
+                <a href="/#generator" class="btn btn-outline btn-action" title="Create a new routine">
+                    <span class="icon">🔄</span>
+                    <span>New Plan</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             FEEDBACK MODIFICATION BANNER (IF UPDATED)
+        ========================================================= -->
+        {% if is_updated and feedback_text %}
+        <div class="feedback-banner glass-card">
+            <div class="banner-icon">💡</div>
+            <div class="banner-body">
+                <h4 class="banner-title">AI Adaptation Applied</h4>
+                <p class="banner-text">This plan was regenerated based on your feedback: <em>"{{ feedback_text }}"</em></p>
+            </div>
+            <a href="/feedback/{{ user.user_id }}" class="btn btn-sm btn-secondary">Adjust Feedback</a>
+        </div>
+        {% endif %}
+
+        <!-- =========================================================
+             7-DAY WORKOUT SCHEDULE CARDS
+        ========================================================= -->
+        <div class="workout-section-header">
+            <div class="section-badge">Structured Routine</div>
+            <h2 class="section-title">Your 7-Day <span class="text-gradient">AI Workout Plan</span></h2>
+            <p class="section-subtitle">Follow each day with proper form, focus, and dedicated hydration.</p>
+        </div>
+
+        <div class="days-container" id="printablePlan">
+            {% for day in plan.days %}
+            <div class="day-card glass-card {% if day.is_rest_day %}rest-day-card{% endif %}">
+                <!-- Day Card Header -->
+                <div class="day-card-header">
+                    <div class="day-number-badge">Day {{ day.day }}</div>
+                    <div class="day-title-group">
+                        <h3 class="day-title">{{ day.title }}</h3>
+                        <div class="day-focus-pill">
+                            <span class="focus-label">Focus:</span>
+                            <span class="focus-val">{{ day.focus }}</span>
+                        </div>
+                    </div>
+                    {% if day.is_rest_day %}
+                    <div class="rest-badge">
+                        <span>🌱 Active Recovery</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Warm-up routine -->
+                <div class="routine-block warmup-block">
+                    <div class="routine-label">
+                        <span class="icon">🔥</span>
+                        <strong>Dynamic Warm-Up:</strong>
+                    </div>
+                    <div class="routine-text">{{ day.warm_up }}</div>
+                </div>
+
+                <!-- Exercise List / Table -->
+                {% if day.is_rest_day and day.exercises|length == 0 %}
+                <div class="rest-day-content">
+                    <div class="rest-illustration">🧘‍♂️</div>
+                    <h4>Rest & Muscle Repair</h4>
+                    <p>Dedicate today to full body recovery: 8 hours of sleep, light mobility walks, foam rolling, and wholesome nutrient intake.</p>
+                </div>
+                {% else %}
+                <div class="exercise-table-wrapper">
+                    <table class="exercise-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Exercise</th>
+                                <th>Sets</th>
+                                <th>Reps / Duration</th>
+                                <th>Rest</th>
+                                <th>Coaching Cue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ex in day.exercises %}
+                            <tr>
+                                <td class="ex-idx">{{ loop.index }}</td>
+                                <td class="ex-name-cell">
+                                    <strong>{{ ex.name }}</strong>
+                                </td>
+                                <td><span class="tag tag-sets">{{ ex.sets }}</span></td>
+                                <td><span class="tag tag-reps">{{ ex.reps }}</span></td>
+                                <td><span class="tag tag-rest">{{ ex.rest }}</span></td>
+                                <td class="ex-notes-cell">{{ ex.notes if ex.notes else "Focus on controlled breathing & posture" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                <!-- Cool-down routine -->
+                <div class="routine-block cooldown-block">
+                    <div class="routine-label">
+                        <span class="icon">❄️</span>
+                        <strong>Cool-Down & Recovery:</strong>
+                    </div>
+                    <div class="routine-text">{{ day.cool_down }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- =========================================================
+             NUTRITION & RECOVERY TIP HIGHLIGHT CARD
+        ========================================================= -->
+        <section class="nutrition-section">
+            <div class="nutrition-card glass-card shadow-glow">
+                <div class="nutrition-header">
+                    <div class="nutrition-icon-badge">🥗</div>
+                    <div>
+                        <div class="n-badge-text">Personalized Strategy</div>
+                        <h3 class="nutrition-title">AI Nutrition & Recovery Blueprint</h3>
+                    </div>
+                </div>
+
+                <div class="nutrition-body">
+                    <p class="nutrition-content">{{ nutrition_tip }}</p>
+                </div>
+
+                <div class="disclaimer-box">
+                    <span class="disc-icon">⚠️</span>
+                    <span class="disc-text">
+                        <strong>Disclaimer:</strong> {{ plan.disclaimer }}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             BOTTOM CTA CARDS
+        ========================================================= -->
+        <div class="bottom-cta-grid">
+            <div class="cta-box glass-card">
+                <div class="cta-icon">💬</div>
+                <div class="cta-info">
+                    <h4>Want to adjust exercises?</h4>
+                    <p>Tell FitBuddy what equipment you have or ask to modify intensity.</p>
+                </div>
+                <a href="/feedback/{{ user.user_id }}" class="btn btn-primary">Improve Plan</a>
+            </div>
+
+            <div class="cta-box glass-card">
+                <div class="cta-icon">🖨️</div>
+                <div class="cta-info">
+                    <h4>Take it to the gym</h4>
+                    <p>Save a lightweight offline text file or print a pocket summary.</p>
+                </div>
+                <a href="/api/user/{{ user.user_id }}/download" class="btn btn-secondary">Download .txt</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

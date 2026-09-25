@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ error_title if error_title else "Notice" }} | FitBuddy{% endblock %}
+
+{% block content %}
+<div class="error-page-wrapper">
+    <div class="container error-container">
+        
+        <div class="error-card glass-card form-glass text-center">
+            <div class="error-icon-box">⚡</div>
+            <h1 class="error-title text-gradient">{{ error_title if error_title else "FitBuddy Notification" }}</h1>
+            <p class="error-message">{{ error_message if error_message else "An unexpected event occurred while processing your request." }}</p>
+
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary btn-lg shadow-glow">
+                    <span>🏠 Back to Home</span>
+                </a>
+                <a href="/#generator" class="btn btn-secondary btn-lg">
+                    <span>⚡ Create a Plan</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

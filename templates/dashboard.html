@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | FitBuddy – AI Fitness Plan Generator{% endblock %}
+
+{% block content %}
+<div class="dashboard-page-wrapper">
+    <div class="container-fluid dashboard-container">
+
+        <!-- =========================================================
+             DASHBOARD TOP BAR
+        ========================================================= -->
+        <div class="dashboard-topbar glass-card">
+            <div class="topbar-title-group">
+                <div class="dash-badge">🛡️ Administrator Console</div>
+                <h1 class="dash-heading">FitBuddy <span class="text-gradient">Admin Dashboard</span></h1>
+                <p class="dash-sub">Monitor active fitness athletes, generated AI workout plans, user feedback, and telemetry.</p>
+            </div>
+
+            <div class="topbar-actions">
+                <a href="/" target="_blank" class="btn btn-secondary btn-sm">
+                    <span>🌐 Live Site</span>
+                </a>
+                <a href="/docs" target="_blank" class="btn btn-secondary btn-sm">
+                    <span>⚡ Swagger API</span>
+                </a>
+                <a href="/admin/logout" class="btn btn-outline-danger btn-sm">
+                    <span>🚪 Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             KPI STATISTICS GRID
+        ========================================================= -->
+        <div class="stats-grid">
+            <div class="stat-card glass-card">
+                <div class="stat-card-icon stat-icon-users">👥</div>
+                <div class="stat-card-info">
+                    <span class="sc-title">Total Registered Users</span>
+                    <span class="sc-val">{{ stats.total_users }}</span>
+                    <span class="sc-sub">Athletes in SQLite Database</span>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-card-icon stat-icon-plans">📋</div>
+                <div class="stat-card-info">
+                    <span class="sc-title">Total AI Plans</span>
+                    <span class="sc-val">{{ stats.total_plans }}</span>
+                    <span class="sc-sub">Generated 7-Day Blueprints</span>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-card-icon stat-icon-updated">🔄</div>
+                <div class="stat-card-info">
+                    <span class="sc-title">Feedback Modifications</span>
+                    <span class="sc-val">{{ stats.updated_plans }}</span>
+                    <span class="sc-sub">Plans Regenerated via AI</span>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-card-icon stat-icon-goals">🎯</div>
+                <div class="stat-card-info">
+                    <span class="sc-title">Active Goals Ratio</span>
+                    <div class="goals-mini-list">
+                        {% for g, count in stats.goal_counts.items() %}
+                        <span class="goal-pill">{{ g }}: <strong>{{ count }}</strong></span>
+                        {% else %}
+                        <span class="sc-sub">No goal data yet</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             SEARCH & FILTER TOOLBAR
+        ========================================================= -->
+        <div class="filter-card glass-card">
+            <form action="/view-all-users" method="GET" class="filter-form" id="adminFilterForm">
+                <div class="filter-grid">
+                    <!-- Search Box -->
+                    <div class="filter-group search-group">
+                        <label for="searchQuery" class="filter-label">Search Athlete</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔍</span>
+                            <input 
+                                type="text" 
+                                id="searchQuery" 
+                                name="q" 
+                                class="form-input" 
+                                placeholder="Search by name or user ID..." 
+                                value="{{ filters.q }}"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Filter by Goal -->
+                    <div class="filter-group">
+                        <label for="filterGoal" class="filter-label">Goal</label>
+                        <select id="filterGoal" name="goal" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Goals</option>
+                            {% for g in goals %}
+                            <option value="{{ g }}" {% if filters.goal == g %}selected{% endif %}>{{ g }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Filter by Intensity -->
+                    <div class="filter-group">
+                        <label for="filterIntensity" class="filter-label">Intensity</label>
+                        <select id="filterIntensity" name="intensity" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Intensities</option>
+                            {% for int_opt in intensities %}
+                            <option value="{{ int_opt }}" {% if filters.intensity == int_opt %}selected{% endif %}>{{ int_opt }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Filter by Plan Status -->
+                    <div class="filter-group">
+                        <label for="filterStatus" class="filter-label">Plan Status</label>
+                        <select id="filterStatus" name="status_filter" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Statuses</option>
+                            <option value="Original" {% if filters.status_filter == 'Original' %}selected{% endif %}>Original Plan</option>
+                            <option value="Updated" {% if filters.status_filter == 'Updated' %}selected{% endif %}>Updated with Feedback</option>
+                            <option value="No Plan" {% if filters.status_filter == 'No Plan' %}selected{% endif %}>No Plan</option>
+                        </select>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="filter-group filter-actions">
+                        <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                        <a href="/view-all-users" class="btn btn-outline btn-sm">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- =========================================================
+             USERS TABLE
+        ========================================================= -->
+        <div class="table-card glass-card">
+            <div class="table-card-header">
+                <h3 class="table-title">Registered Athletes ({{ users|length }})</h3>
+                <span class="table-subtitle">Click 'Inspect' to preview original and updated workout plans.</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Weight</th>
+                            <th>Goal</th>
+                            <th>Intensity</th>
+                            <th>Created Date</th>
+                            <th>Plan Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in users %}
+                        <tr id="row-{{ item.user.user_id }}">
+                            <td class="user-id-cell">
+                                <code>{{ item.user.user_id }}</code>
+                            </td>
+                            <td>
+                                <strong>{{ item.user.name }}</strong>
+                            </td>
+                            <td>{{ item.user.age }} yrs</td>
+                            <td>{{ item.user.weight }} kg</td>
+                            <td>
+                                <span class="tag tag-goal">{{ item.user.goal }}</span>
+                            </td>
+                            <td>
+                                <span class="tag tag-intensity-{{ item.user.intensity|lower }}">{{ item.user.intensity }}</span>
+                            </td>
+                            <td class="date-cell">
+                                {{ item.user.created_at.strftime('%b %d, %Y %H:%M') if item.user.created_at else 'Recent' }}
+                            </td>
+                            <td>
+                                {% if item.plan_status == 'Updated' %}
+                                <span class="badge badge-updated">Updated</span>
+                                {% elif item.plan_status == 'Original' %}
+                                <span class="badge badge-original">Original</span>
+                                {% else %}
+                                <span class="badge badge-none">No Plan</span>
+                                {% endif %}
+                            </td>
+                            <td class="actions-cell text-right">
+                                <div class="btn-group">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-xs btn-secondary" 
+                                        onclick="inspectPlan('{{ item.user.user_id }}', '{{ item.user.name }}', '{{ item.user.goal }}', '{{ item.user.intensity }}', '{{ item.user.age }}', '{{ item.user.weight }}', '{{ item.is_updated }}', {{ 'true' if item.has_plan else 'false' }})"
+                                        title="Inspect Plan in Modal"
+                                    >
+                                        👁️ Inspect
+                                    </button>
+
+                                    {% if item.has_plan %}
+                                    <a 
+                                        href="/result/{{ item.user.user_id }}" 
+                                        target="_blank" 
+                                        class="btn btn-xs btn-outline" 
+                                        title="Open public result page"
+                                    >
+                                        🔗 View
+                                    </a>
+                                    {% endif %}
+
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-xs btn-danger-outline" 
+                                        onclick="confirmDeleteUser('{{ item.user.user_id }}', '{{ item.user.name }}')"
+                                        title="Delete user and plan"
+                                    >
+                                        🗑️
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center empty-table">
+                                <div class="empty-state">
+                                    <span class="empty-icon">📂</span>
+                                    <h4>No athletes found</h4>
+                                    <p>Try clearing filters or create a new plan from the home page.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================================================
+     INSPECT PLAN MODAL
+========================================================= -->
+<div id="inspectModal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-dialog glass-card">
+        <div class="modal-header">
+            <div class="modal-title-group">
+                <span class="modal-badge">Plan Inspector</span>
+                <h3 id="modalUserName" class="modal-title">Athlete Plan</h3>
+                <div id="modalUserMeta" class="modal-meta"></div>
+            </div>
+            <button type="button" class="modal-close" onclick="closeInspectModal()">✕</button>
+        </div>
+
+        <div class="modal-body" id="modalPlanContent">
+            <div class="modal-loading text-center">
+                <span class="spinner"></span>
+                <p>Loading AI workout plan details from database...</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a id="modalExternalLink" href="#" target="_blank" class="btn btn-sm btn-primary">Open Full Result Page</a>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="closeInspectModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+     DELETE CONFIRMATION MODAL
+========================================================= -->
+<div id="deleteModal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm glass-card">
+        <div class="modal-header">
+            <h3 class="modal-title text-danger">⚠️ Confirm User Deletion</h3>
+            <button type="button" class="modal-close" onclick="closeDeleteModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <p>Are you sure you want to permanently delete athlete <strong id="delUserName"></strong> (<code id="delUserId"></code>) and all associated AI workout plans and feedback?</p>
+            <p class="text-warning-muted"><small>This action cannot be undone.</small></p>
+        </div>
+
+        <div class="modal-footer">
+            <form id="deleteUserForm" method="POST" action="">
+                <button type="submit" class="btn btn-danger">Yes, Delete Record</button>
+            </form>
+            <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
